@@ -117,8 +117,7 @@ graph TD
 ### 1-4. 기술 스택
 
 <aside>
-⚙️
-
+    
 - **Language:** Java 17
 - **Framework:** Spring Boot 3.3.5
 - **Cloud:** Spring Cloud 2023.0.3
@@ -129,6 +128,7 @@ graph TD
         - Spring Cloud Gateway
         - Spring Boot Actuator
 - **Build Tool:** Gradle 9.4
+
 </aside>
 
 | **Category** | **Technology** | **Version** | **Rationale** |
@@ -155,7 +155,7 @@ graph TD
 
 ### 1-5. 프로젝트 구조
 
-- [프로젝트 구조 tree](./docs/project-tree.md)
+- [프로젝트 구조 👉🏻 tree.md 바로가기](./docs/project-tree.md)
      
     ```md
     miniMSA(root)/
