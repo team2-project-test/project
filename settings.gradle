@@ -1,0 +1,6 @@
+rootProject.name = 'miniMSA'
+include 'config-server'
+include 'eureka-server'
+include 'api-gateway'
+include 'service-a'
+include 'service-b'

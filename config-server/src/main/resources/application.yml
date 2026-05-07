@@ -1,0 +1,13 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: native          # 로컬 파일 시스템에서 설정 파일 읽기
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config
