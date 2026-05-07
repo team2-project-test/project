@@ -166,16 +166,12 @@ Spring Boot 3 이상의 필수 요구사항 |
 | (통합) miniMSA |   • `lombok` • `spring-cloud-dependencies BOM` |  |
 | api-gateway |   • `spring-cloud-starter-gateway`• `spring-cloud-starter-netflix-eureka-client`• `spring-cloud-starter-config`• `spring-boot-starter-actuator` | port : 8080 |
 | eureka-server |   • `spring-cloud-starter-netflix-eureka-server` | port : 8761 `register-with-eureka: false, fetch-registry: false` |
-| config-server |   • `spring-cloud-config-server` | port : 8888
-`profiles.active: native` |
+| config-server |   • `spring-cloud-config-server` | port : 8888 `profiles.active: native` |
 | service-a |   • `spring-boot-starter-web` • `spring-boot-starter-actuator` • `spring-cloud-starter-netflix-eureka-client` • `spring-cloud-starter-config` | port : 8081 |
 | service-b | (service-a 와 동일) | port : 8082 |
 - `spring-boot-starter-web` vs. `spring-cloud-starter-gateway`
     - service-a/b :  → Servlet 기반 (일반 actuator)
     - api-gateway :  → WebFlux 기반 (반응형 actuator)
-    
-    |  | Servlet 기반 | WebFlux 기반 |
-    | 적합한 곳 | 일반 비즈니스 로직 | I/O 대기가 많은 곳 (API-Gateway) |
 - `spring-cloud-dependencies BOM`
     - 여러 라이브러리 버전을 한 번에 관리
         - Spring Cloud 라이브러리 버전이 모두 맞아야 동작 → 루트 `build.gradle` 에서 한 번만 버전 선언하면, 각 모듈에서는 버전 생략 가능
