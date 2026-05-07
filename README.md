@@ -179,7 +179,7 @@ Spring Boot 3 이상의 필수 요구사항 |
         - 각 마이크로서비스를 **완전히 독립된 Git 리포지토리**로 분리하여 운영하는 구조.
         - 각 리포지토리는 자체 CI/CD 파이프라인, 독립적인 배포 주기, 별도의 기술 스택을 가질 수 있다. → 서비스 간 코드 공유는 별도 라이브러리를 패키징·배포하는 방식으로 해결한다.
     
-    ![msa_repo_strategy_comparison_v2.svg](attachment:0b3b226b-e59a-43b6-8345-396c59d8272e:msa_repo_strategy_comparison_v2.svg)
+    <img width="119" height="150" alt="Image" src="https://github.com/user-attachments/assets/0982af90-182e-4036-b324-90c277f46a5b" />
     
 
 ---
@@ -440,8 +440,8 @@ Spring Boot 3 이상의 필수 요구사항 |
 1. **레지스트리 대시보드 확인:**
     - 브라우저에서 `http://localhost:8761` 접속
     - **'Instances currently registered with Eureka'** 섹션 → `API-GATEWAY`, `SERVICE-A`, `SERVICE-B`가 모두 표시되는지 확인
-        
-        ![image.png](attachment:9dd0c37a-ba5f-481e-9d70-9f67cf76ed52:image.png)
+        <img width="1436" height="983" alt="Image" src="https://github.com/user-attachments/assets/29b36d98-c625-4450-a2ee-60cc12daa270" />
+
         
 2. **API Gateway 라우팅 테스트 (Health Check)**
     
@@ -452,11 +452,11 @@ Spring Boot 3 이상의 필수 요구사항 |
         - 응답 본문: `{"status": "UP"}`
     - **Service A 요청:** `GET http://localhost:8080/service-a/actuator/health`
         
-        ![image (1).png](attachment:e85c5aca-965d-46ac-823d-bd142629e43a:eb5e2016-e4f1-49ae-8759-a7df4318503e.png)
+        <img width="588" height="128" alt="Image" src="https://github.com/user-attachments/assets/973561a9-0ea3-48bc-a3ee-26d29f590378" />
         
     - **Service B 요청:** `GET http://localhost:8080/service-b/actuator/health`
         
-        ![image (2).png](attachment:ac16b9b4-4643-4648-b13e-8c0be04748a1:image_(2).png)
+        <img width="583" height="124" alt="Image" src="https://github.com/user-attachments/assets/3ab04ada-73c1-4587-93a3-2ff774659351" />
         
 3. **Config Server 설정 주입 확인**
     
@@ -474,4 +474,4 @@ Spring Boot 3 이상의 필수 요구사항 |
             
     - `http://localhost:8888/service-a/default` **요청:**
         
-        ![스크린샷 2026-05-07 오전 1.13.33.png](attachment:8b290926-41d3-43a0-89b4-233d1962a7e3:스크린샷_2026-05-07_오전_1.13.33.png)
+        <img width="638" height="373" alt="Image" src="https://github.com/user-attachments/assets/0c1bf099-0279-46d6-9830-b65836b582d4" />
