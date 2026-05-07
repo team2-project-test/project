@@ -133,8 +133,7 @@ graph TD
 
 | **Category** | **Technology** | **Version** | **Rationale** |
 | --- | --- | --- | --- |
-| **Language** | Java | 17 | LTS 버전으로 안정적인 기능과 성능 제공, 
-Spring Boot 3 이상의 필수 요구사항 |
+| **Language** | Java | 17 | LTS 버전으로 안정적인 기능과 성능 제공, Spring Boot 3 이상의 필수 요구사항 |
 | **Framework** | Spring Boot | 3.3.5 | MSA 개발에 최적화된 독립 실행형 Spring 애플리케이션 구축 프레임워크 |
 | **Cloud** | Spring Cloud | 2023.0.3 | 분산 시스템의 공통 패턴(설정 관리, 서비스 탐색, 라우팅 등)을 구현하기 위한 도구 모음 |
 | **Build Tool** | Gradle | 9.4.1 | 유연하고 강력한 빌드 자동화 및 의존성 관리 도구 |
@@ -156,9 +155,9 @@ Spring Boot 3 이상의 필수 요구사항 |
 
 ### 1-5. 프로젝트 구조
 
-- [ ]  프로젝트 구조 tree
-    
-    ```jsx
+- [프로젝트 구조 tree](./docs/project-tree.md)
+     
+    ```md
     miniMSA(root)/
     ├── api-gateway/         
     ├── config-server/
@@ -167,19 +166,18 @@ Spring Boot 3 이상의 필수 요구사항 |
     └── service-b/
     ```
     
-- [ ]  Repository 전략 👉🏻 **Multi-Module**
+- Repository 전략 👉🏻 **Multi-Module**
     - **Multi-Module [선택✅]**
         - 하나의 루트 프로젝트(단일 Git 리포지토리) 안에 여러 서브모듈을 두는 구조.
         - `settings.gradle`에 각 모듈을 등록하고, 공통 의존성은 루트 `build.gradle`에서 일괄 관리 → 각 모듈은 독립적으로 빌드·배포 가능하지만 코드베이스는 하나로 공유된다.
         - 멀티모듈 선택 이유🤔
             
-            **공통 코드 공유가 쉽다, 단일 클론으로 전체 개발 가능, 일관된 빌드 환경**  등의 장점 👉🏻 MSA 구조 탐색을 주요 목적으로 하고 있으므로 더 적합한 전략이라고 판단하였다.
+            **공통 코드 공유가 쉽다, 단일 클론으로 전체 개발 가능, 일관된 빌드 환경**  등의 장점 👉🏻 MSA 구조 탐색을 주요 목적으로 하고 있으므로 더 적합한 전략이라고 판단하였다.
             
     - **Multi-Repository**
         - 각 마이크로서비스를 **완전히 독립된 Git 리포지토리**로 분리하여 운영하는 구조.
         - 각 리포지토리는 자체 CI/CD 파이프라인, 독립적인 배포 주기, 별도의 기술 스택을 가질 수 있다. → 서비스 간 코드 공유는 별도 라이브러리를 패키징·배포하는 방식으로 해결한다.
-    
-    <img width="119" height="150" alt="Image" src="https://github.com/user-attachments/assets/0982af90-182e-4036-b324-90c277f46a5b" />
+        <img width="690" height="870" alt="msa_repo_strategy_comparison" src="https://github.com/user-attachments/assets/e0b0f252-2826-4dc4-8e6e-efbb8068bb6c" />
     
 
 ---
@@ -188,14 +186,14 @@ Spring Boot 3 이상의 필수 요구사항 |
 
 ### 2-1. 모듈 구성
 
-|  | build.gradle 설정 | application.yml |
-| --- | --- | --- |
-| (통합) miniMSA |   • `lombok` • `spring-cloud-dependencies BOM` |  |
-| api-gateway |   • `spring-cloud-starter-gateway`• `spring-cloud-starter-netflix-eureka-client`• `spring-cloud-starter-config`• `spring-boot-starter-actuator` | port : 8080 |
-| eureka-server |   • `spring-cloud-starter-netflix-eureka-server` | port : 8761 `register-with-eureka: false, fetch-registry: false` |
-| config-server |   • `spring-cloud-config-server` | port : 8888 `profiles.active: native` |
-| service-a |   • `spring-boot-starter-web` • `spring-boot-starter-actuator` • `spring-cloud-starter-netflix-eureka-client` • `spring-cloud-starter-config` | port : 8081 |
-| service-b | (service-a 와 동일) | port : 8082 |
+|  | build.gradle 설정                                                                                                                                                | application.yml                                                              |
+| --- |----------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------|
+| (통합) miniMSA | • `lombok` <br> • `spring-cloud-dependencies BOM`                                                                                                              |                                                                              |
+| api-gateway | • `spring-cloud-starter-gateway`<br> • `spring-cloud-starter-netflix-eureka-client` <br> • `spring-cloud-starter-config` <br> • `spring-boot-starter-actuator` | port : 8080                                                                  |
+| eureka-server | • `spring-cloud-starter-netflix-eureka-server`                                                                                                                 | port : 8761 <br> `register-with-eureka: false`, <br> `fetch-registry: false` |
+| config-server | • `spring-cloud-config-server`                                                                                                                                 | port : 8888 <br> `profiles.active: native`                                   |
+| service-a | • `spring-boot-starter-web` <br> • `spring-boot-starter-actuator` <br> • `spring-cloud-starter-netflix-eureka-client` <br> • `spring-cloud-starter-config`     | port : 8081                                                                  |
+| service-b | (service-a 와 동일)                                                                                                                                               | port : 8082                                                                  |
 - `spring-boot-starter-web` vs. `spring-cloud-starter-gateway`
     - service-a/b :  → Servlet 기반 (일반 actuator)
     - api-gateway :  → WebFlux 기반 (반응형 actuator)
@@ -263,7 +261,7 @@ Spring Boot 3 이상의 필수 요구사항 |
         
     - ConfigServerApplication.java
         
-        ```jsx
+        ```java
         @EnableConfigServer // 이 애플리케이션을 Spring Cloud Config 서버로 활성화
         @SpringBootApplication
         public class ConfigServerApplication { ... }
@@ -283,7 +281,7 @@ Spring Boot 3 이상의 필수 요구사항 |
 - 의존성
     - build.gradle
         
-        ```yaml
+        ```code
         dependencies {
             // API Gateway
             implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
@@ -365,7 +363,7 @@ Spring Boot 3 이상의 필수 요구사항 |
 - 의존성
     - build.gradle
         
-        ```yaml
+        ```code
         dependencies {
             implementation 'org.springframework.boot:spring-boot-starter-web'
         
@@ -417,22 +415,22 @@ Spring Boot 3 이상의 필수 요구사항 |
 
 ### 3-1. API Endpoints
 
-| URL | **설명** |
-| --- | --- |
-| `GET :8080/actuator/health` | health 체크 |
-| `GET :8761` | Eureka 대시보드 |
-| `GET :8080/service-a/actuator/health` | Service A health 체크 (Client → Gateway → Service A) |
-| `GET :8080/service-b/actuator/health` | Service B health 체크 (Client → Gateway → Service B) |
+| URL | **설명**                                                  |
+| --- |---------------------------------------------------------|
+| `GET :8080/actuator/health` | health 체크                                               |
+| `GET :8761` | Eureka 대시보드                                             |
+| `GET :8080/service-a/actuator/health` | Service A health 체크 <br> (Client → Gateway → Service A) |
+| `GET :8080/service-b/actuator/health` | Service B health 체크 <br> (Client → Gateway → Service B) |
 
 ### 3-2. 실행 순서
 
-1. `ConfigServerApplication` 실행 (8888 포트)
+1. `ConfigServerApplication` 실행 (8888 포트)  
 모든 서비스의 설정 정보를 제공하는 서버이므로 가장 먼저 기동되어야 한다.
-2. `EurekaServerApplication` 실행 (8761 포트)
+2. `EurekaServerApplication` 실행 (8761 포트)  
 각 서비스의 위치를 등록받기 위해 설정 서버 다음으로 실행한다.
-3. `ServiceAApplication` 및 `ServiceBApplication` 실행 (8081, 8082 포트)
+3. `ServiceAApplication` 및 `ServiceBApplication` 실행 (8081, 8082 포트)  
 설정 서버에서 유레카 주소를 받아온 뒤 자신의 정보를 등록한다.
-4. `ApiGatewayApplication` 실행 (8080 포트)
+4. `ApiGatewayApplication` 실행 (8080 포트)  
 유레카로부터 서비스 리스트를 받아 라우팅 준비 완료.
 
 ### 3-3. 검증 방법
