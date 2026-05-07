@@ -23,7 +23,7 @@
 
 1. **중앙 집중식 서비스 레지스트리 (Eureka Server)**
     - `@EnableEurekaServer` 어노테이션을 통해 서비스 레지스트리 활성화.
-    - 모든 마이크로서비스(Gateway, Service A, B)가 기동 시 자신의 정보를 `[http://localhost:8761/eureka/`에](http://localhost:8761/eureka/%60%EC%97%90) 동적으로 등록하도록 설정.
+    - 모든 마이크로서비스(Gateway, Service A, B)가 기동 시 자신의 정보를 `[http://localhost:8761/eureka/`에](http://localhost:8761/eureka/%60%EC%97%90)  동적으로 등록하도록 설정.
 2. **외부 구성 정보 관리 (Config Server)**
     - `@EnableConfigServer`를 사용하여 개별 서비스의 설정(yml)을 통합 관리.
     - **Native Storage 방식**: 프로젝트 내부의 `src/main/resources/config` 경로에 있는 설정 파일들을 각 서비스에 제공.
@@ -163,38 +163,18 @@ Spring Boot 3 이상의 필수 요구사항 |
 
 |  | build.gradle 설정 | application.yml |
 | --- | --- | --- |
-| (통합) miniMSA |   • `lombok`
-  • `spring-cloud-dependencies BOM` |  |
-| api-gateway |   • `spring-cloud-starter-gateway`
-  • `spring-cloud-starter-netflix-eureka-client`
-  • `spring-cloud-starter-config`
-  • `spring-boot-starter-actuator` | port : 8080 |
-| eureka-server |   • `spring-cloud-starter-netflix-eureka-server` | port : 8761
-`register-with-eureka: false
-fetch-registry: false` |
+| (통합) miniMSA |   • `lombok` • `spring-cloud-dependencies BOM` |  |
+| api-gateway |   • `spring-cloud-starter-gateway`• `spring-cloud-starter-netflix-eureka-client`• `spring-cloud-starter-config`• `spring-boot-starter-actuator` | port : 8080 |
+| eureka-server |   • `spring-cloud-starter-netflix-eureka-server` | port : 8761 `register-with-eureka: false, fetch-registry: false` |
 | config-server |   • `spring-cloud-config-server` | port : 8888
 `profiles.active: native` |
-| service-a |   • `spring-boot-starter-web`
-  • `spring-boot-starter-actuator`
-  • `spring-cloud-starter-netflix-eureka-client`
-  • `spring-cloud-starter-config` | port : 8081 |
+| service-a |   • `spring-boot-starter-web` • `spring-boot-starter-actuator` • `spring-cloud-starter-netflix-eureka-client` • `spring-cloud-starter-config` | port : 8081 |
 | service-b | (service-a 와 동일) | port : 8082 |
 - `spring-boot-starter-web` vs. `spring-cloud-starter-gateway`
     - service-a/b :  → Servlet 기반 (일반 actuator)
     - api-gateway :  → WebFlux 기반 (반응형 actuator)
     
     |  | Servlet 기반 | WebFlux 기반 |
-    | --- | --- | --- |
-    | 설명 |   • 요청 하나에 스레드 하나
-    요청 1 → 스레드 1 → 처리 → 응답
-    요청 2 → 스레드 2 → 처리 → 응답
-    요청 3 → 스레드 3 → 처리 → 응답 |   • 여러 개의 스레드로 요청 처리
-    요청 1 → 스레드 1 → DB 기다리는 동안 → 요청 2 처리
-                                                                            → 요청 3 처리
-                                     → DB 응답 오면          → 다시 요청 1 마무리 |
-    | 방식 | 요청 당 스레드 1개
-    동기 방식 | 여러 개의 스레드 처리
-    비동기 방식 |
     | 적합한 곳 | 일반 비즈니스 로직 | I/O 대기가 많은 곳 (API-Gateway) |
 - `spring-cloud-dependencies BOM`
     - 여러 라이브러리 버전을 한 번에 관리
