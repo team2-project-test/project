@@ -37,8 +37,35 @@
     - Gateway 서비스에서 `health`, `info`, `gateway` 엔드포인트를 노출하여 라우팅 상태 및 전체 시스템 건전성을 확인할 수 있는 기반 마련.
 
 ### 1-3. 아키텍처 구조
+```mermaid
+graph TD
+         Client((외부 클라이언트)) --> Gateway[API Gateway :8080]
+         
+         subgraph "Infrastructure Services"
+             Config[Config Server :8888]
+            Eureka[Eureka Server :8761]
+         end
+    
+         subgraph "Microservices"
+            ServiceA[Service A :8081]
+            ServiceB[Service B :8082]
+        end
+   
+        %% Configuration Flow
+        Gateway -.->|Fetch Config| Config
+        ServiceA -.->|Fetch Config| Config
+        ServiceB -.->|Fetch Config| Config
+   
+        %% Registration Flow
+        Gateway ---|Register/Discovery| Eureka
+        ServiceA ---|Register/Discovery| Eureka
+        ServiceB ---|Register/Discovery| Eureka
+   
+        %% Routing Flow
+        Gateway ==>|Routing /service-a/**| ServiceA
+        Gateway ==>|Routing /service-b/**| ServiceB
 
-![image.png](attachment:d7d8eaa4-2c6c-483f-9d8b-7e81f6d43227:image.png)
+```
 
 - **요청 흐름 :** Client → API Gateway → Eureka Server 조회 → Service A / Service B
     
